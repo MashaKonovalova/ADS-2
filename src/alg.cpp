@@ -1,64 +1,79 @@
 // Copyright 2021 NNTU-CS
-  int countPairs1(int *arr, int len, int value) {
-     return 0;
-     int count = 0;
-     for (int i = 0; i < len-1; i++) {
-        for (int j = i+1; j < len; j++) {
-            if (arr[i] + arr[j] == value)
-                count++;
-        }
+  int countPairs1(int *arr,int len,int value)
+{
+  int c1 = 0;
+  int i;
+  int j;
+  int r = len - 1;
+  for(i = 0; i < r; i++) {
+    for(j = i + 1; j < r + 1; j++) {
+      if((arr[i] + arr[j]) == value) {
+      c1++;
       }
-    return count;
+    }
+  }
+  if(c1 >= 0) {
+     return c1;
+  } else {
+     return 0;
+  }  
 }
-
-int countPairs2(int *arr, int len, int value) {
-  return 0;
-int count = 0, left = 0, right = len - 1;
-    while (left < right - 1) {
-       int middle = (left + right) / 2;
-        if (arr[middle] <= value)
-           left = middle;
-        else
-            right = middle;
+int countPairs2(int *arr,int len,int value)
+{
+  int rg = len - 1;
+  int lg = 0;
+  int c2 = 0;
+  while(arr[rg] > value) {
+     rg--;
+  }
+  while(lg <= rg) {
+    if (((arr[rg] + arr[lg]) == value) && (lg < rg)) {
+    c2++;
+    lg++;
+  } else if (((arr[rg] + arr[lg]) < value) && (lg < rg)) {
+     lg++;
+  } else {
+    rg--;
+    lg = 0;
     }
-    len = right-1;
-for (int i = len; i >=0; i--) {
-        for (int j = 0; j < i; j++) {
-            if (arr[i] + arr[j] == value)
-                count++;
-            if (arr[i] + arr[j] > value)
-                break;
-        }
-    }
-    return count;
+  }
+  if(c2 >= 0) {
+     return c2;
+  } else {
+    return 0;
+  } 
 }
-
-int countPairs3(int *arr, int len, int value) {
-  return 0;
-  int count = 0, left = 0, right = len - 1;
-    while (left < right - 1) {
-        int middle = (left + right) / 2;
-        if (arr[middle] <= value)
-            left = middle;
-        else
-            right = middle;
+int countPairs3(int *arr,int len,int value)
+{
+  int c3 = 0;
+  int ii = 0;
+  int med, index, valuer, l, r;
+  while(ii < len - 1) {
+    valuer = value - arr[ii];
+    l = ii + 1;
+    r = len - 1;
+    while (l <= r) {
+    med = l + (r - l) / 2;
+    if (arr[med] > valuer) {
+    r = med - 1;
+  } else if (arr[med] < valuer) {
+     l = med + 1;
+  } else {
+    index = med;
+    break;
     }
-    len = right - 1;
-  for (int i = 0; i <len; i++) {
-        left = i+1, right = len-1;
-        int countNum = 0;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr[mid] < (value-arr[i]))
-                left = mid + 1;
-            else
-                right = mid;
-        }
-        while (arr[left] == (value - arr[i])) {
-            countNum++;
-            left++;
-        }
-        count += countNum;
+  }
+  int i = index;
+  while ((i > ii) && (index >= 0) && (arr[i] == valuer)) {
+    c3++;
+    i--;
     }
-    return count;
+  i = index + 1;
+  while((i < len) && (len > index) && (arr[i] == valuer)) {
+    c3++;
+    i++;
+    }
+  ii++;
+  }
+  return c3;
 }
